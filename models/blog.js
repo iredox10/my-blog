@@ -22,13 +22,7 @@ const blog = new mongoose.Schema({
     category:{
         type: String,
         required: true,
-    },
-    //! fix the category relationship,
-    //! make relationship with the category to be in objectId
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'category',
-    } 
+    }
 }, {timestamps: true})
 
 blog.pre('save', function(){
@@ -37,6 +31,6 @@ blog.pre('save', function(){
     }
 })
 
-const Blog = mongoose.model('blog', blog)
+const Blog =mongoose.models.blog || mongoose.model('blog', blog)
 
 export default Blog
