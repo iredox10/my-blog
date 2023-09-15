@@ -1,3 +1,4 @@
+import Categories from '@/app/components/Categories'
 import FormBtn from '@/app/components/FormBtn'
 import FormInput from '@/app/components/FormInput'
 import Header from '@/app/components/Header'
@@ -26,14 +27,10 @@ const Admin = async () => {
       const res = await fetch('http://localhost:3000/api/categories', {
         method: 'POST', 
         body: JSON.stringify({name, shortName, desc, color}),
-        // headers: {
-        //   'Content-Type': 'application/json'
-        // }
       })
       const data = await res.json()
       console.log(data)
       revalidatePath('/admin')
-      // redirect('/')
     }
 
 
@@ -43,13 +40,7 @@ const Admin = async () => {
       <div className='flex'>
       <div className='flex-1 md:grid grid-cols-4 gap-4 my-4 mx-6'>
         {categories.map(category => (
-          <div key={category._id} className='bg-dark-color text-white p-2'>
-            <p>{category.name}</p>
-            <p>{category.shortName}</p>
-            <p>{category.desc}</p>
-            <p style={{backgroundColor: category.color}}>{category.color}</p>
-            <Link href={`/admin/${category.slug}`}>View</Link>
-          </div>
+          <Categories category={category} />
         ))}
       </div>
       <div className='p-2 m-4 bg-dark-color'>

@@ -7,7 +7,7 @@ export async function GET(request,{params}){
     const slug = params.slug
     try{
        const blog = await Blog.findOne({slug:slug})
-       !blog && NextResponse.json('no blog')
+    //    !blog && NextResponse.json('no blog')
        return NextResponse.json(blog)
     }catch(err){
        return NextResponse.json(err.message)

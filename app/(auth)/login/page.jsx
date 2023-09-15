@@ -5,6 +5,28 @@ import Link from 'next/link'
 import React from 'react'
 
 const Login = () => {
+
+const handleSubmit = async (formData) => { 
+  'use server'
+  const username = formData.get('username')
+  const password = formData.get('password')
+  try{
+    const res = await fetch('http://localhost:3000/api/users/login',
+    {
+      method: 'POST',
+      body: JSON.stringify({username,password})
+    })
+    if(res.status === 200){
+      const data = await res.json()
+      console.log(data)
+    }else{
+      console.log(`Error: Status ${res.status}`)
+    }
+  }catch(err){
+    console.log(err)
+  }
+
+}
   return (
     <div>
       <Header />
@@ -12,7 +34,7 @@ const Login = () => {
         <div className='text-center'>
         <h1 className=' capitalize text-white text-2xl font-bold'>login</h1>
         </div>
-        <div>
+        <form action={handleSubmit}>
           <FormInput
           labelName={'username'}
           labelFor={'username'}
@@ -28,8 +50,8 @@ const Login = () => {
           Id={'password'}
           />
           <FormBtn text={'login'} />
+        </form>
         <p className='text-secondary-color'>Don't have an account? <Link href='/register' className='underline'>Register</Link></p>
-        </div>
       </div>
     </div>
   )

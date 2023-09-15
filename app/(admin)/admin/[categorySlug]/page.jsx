@@ -2,15 +2,16 @@ import FormBtn from '@/app/components/FormBtn'
 import FormInput from '@/app/components/FormInput'
 import Header from '@/app/components/Header'
 import Title from '@/app/components/Title'
+import { revalidatePath } from 'next/cache'
+
 import Blog from '@/models/blog'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import React from 'react'
 
 const getBlogs = async (slug) => { 
-  const res = await fetch(`http://localhost:3000/api/blogs/${slug}`)
+  const res = await fetch(`http://localhost:3000/api/blogs/${slug}`,{cache: 'no-store'})
   const data = await res.json()
-  // console.log(data)
   return data
 }
 
@@ -27,12 +28,11 @@ const Admin = async ({params}) => {
     const author = formData.get('author')
     const image = formData.get('image')
     
-    const res = await fetch('http://localhost:3000/api/blogs', {
+    const res = await fetch(`http://localhost:3000/api/blogs/${slug}`, {
       method: 'POST',
       body: JSON.stringify({title, subtitle, blog, summary, author, image}),
     })
     const data = await res.json()
-    console.log(data)
     revalidatePath(`/admin/${slug}`)
   }
 
