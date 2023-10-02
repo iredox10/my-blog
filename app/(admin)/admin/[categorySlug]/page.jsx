@@ -27,13 +27,17 @@ const Admin = async ({params}) => {
     const summary = formData.get('summary')
     const author = formData.get('author')
     const image = formData.get('image')
-    
+    try{
     const res = await fetch(`http://localhost:3000/api/blogs/${slug}`, {
       method: 'POST',
       body: JSON.stringify({title, subtitle, blog, summary, author, image}),
     })
     const data = await res.json()
+    return data.newBlog
     revalidatePath(`/admin/${slug}`)
+  }catch(err){
+    console.log(err)
+  }
   }
 
 
@@ -46,6 +50,7 @@ const Admin = async ({params}) => {
           {blogs.blogs.map(blog =>(
             <div key={blog._id} className='bg-dark-color text-white'>
                 <p>{blog.title}</p>
+                
             </div>
           ))}
         </div>

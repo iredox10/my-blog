@@ -28,3 +28,15 @@ export async function POST(request){
         return NextResponse.json(err)   
     }
 }
+
+export async function PATCH (request){
+    connnetMongoose()
+    const {id}= request.params
+    const favorite = request.favorite
+    try{
+        const user = await User.findByIdAndUpdate(id, {favoriteBlogs: $push(favorite)})
+        return NextResponse.json(user.favoriteBlogs)
+    }catch(err){
+        return NextResponse.json(err)
+    }
+}

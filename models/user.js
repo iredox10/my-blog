@@ -14,6 +14,7 @@ const user = new mongoose.Schema({
         type: String,
         required: true
     },
+    favoriteBlogs: Array,
     isAdmin:{
         type: Boolean,
         default: false

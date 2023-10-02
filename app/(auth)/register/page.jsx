@@ -22,8 +22,8 @@ const Login = () => {
         console.error(`Error: Status ${res.status}`);
       }
 
-      // const data = await res.json()
-      // console.log(data)
+      const data = await res.json()
+      console.log(data)
     } catch (err) {
       console.log(err);
     }

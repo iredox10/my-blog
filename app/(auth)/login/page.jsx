@@ -2,31 +2,38 @@ import FormBtn from '@/app/components/FormBtn'
 import FormInput from '@/app/components/FormInput'
 import Header from '@/app/components/Header'
 import Link from 'next/link'
+import { redirect } from "next/navigation";
 import React from 'react'
 
 const Login = () => {
 
-const handleSubmit = async (formData) => { 
-  'use server'
-  const username = formData.get('username')
-  const password = formData.get('password')
-  try{
-    const res = await fetch('http://localhost:3000/api/users/login',
-    {
-      method: 'POST',
-      body: JSON.stringify({username,password})
-    })
-    if(res.status === 200){
-      const data = await res.json()
-      console.log(data)
-    }else{
-      console.log(`Error: Status ${res.status}`)
-    }
-  }catch(err){
-    console.log(err)
-  }
+ async function handleSubmit(formData) {
+   "use server";
+   const username = formData.get("username");
+   const password = formData.get("password");
 
-}
+     const res = await fetch("http://localhost:3000/api/users/login", {
+       method: "POST",
+       body: JSON.stringify({ username, password }),
+      //  always invole the headers. 
+      // it cause you morethan 4 hours to figure out the problem. remember that
+       headers: {
+         "Content-Type": "application/json",
+       },
+     });
+     const data = await res.json();
+     if (res.status === 200) {
+       console.log(data);
+       if (data.user.isAdmin) {
+         const r = redirect("/admin");
+         console.log(r);
+       } else {
+         redirect("/");
+       }
+     } else {
+       console.error(`Error: Status ${res.status}`);
+     }
+ }
   return (
     <div>
       <Header />
