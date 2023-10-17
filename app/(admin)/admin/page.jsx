@@ -40,7 +40,7 @@ const Admin = async () => {
       <div className='flex'>
       <div className='flex-1 md:grid grid-cols-4 gap-4 my-4 mx-6'>
         {categories.map(category => (
-          <Categories category={category} />
+          <Categories category={category} key={category.slug}/>
         ))}
       </div>
       <div className='p-2 m-4 bg-dark-color'>

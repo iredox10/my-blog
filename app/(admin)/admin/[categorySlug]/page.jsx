@@ -33,6 +33,7 @@ const Admin = async ({params}) => {
       body: JSON.stringify({title, subtitle, blog, summary, author, image}),
     })
     const data = await res.json()
+    console.log(data)
     return data.newBlog
     revalidatePath(`/admin/${slug}`)
   }catch(err){

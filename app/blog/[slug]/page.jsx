@@ -1,17 +1,27 @@
 import Header from '@/app/components/Header'
-import React from 'react'
+import ReactMarkdown from 'react-markdown'
 
 const getBlog = async (slug) => {
   const res = await fetch(`http://localhost:3000/api/blog/${slug}`,{cache: 'no-store'})
   const data = await res.json()
-  // console.log(data)
+  // const serial = await serialize(data.blog)
+  // console.log(serial)
   return data
+}
+
+async function handleSubmit(FormData){
+  'use server'  
+  const comment = FormData.get('comment')
+  try{
+    const res = await fetch('http://localhost:3000/api/blog/comment',{})
+  }catch(e){
+    console.log(e.message)
+  }
 }
 
 const Blog = async ({params}) => {
   const slug = params.slug
   const blog = await getBlog(slug)
-  console.log(blog)
   return (
     <div>
       <Header />
@@ -26,8 +36,15 @@ const Blog = async ({params}) => {
         {/* <img src="" alt="" /> */}
       </div>
       <div>
-        {blog.blog}
+       <ReactMarkdown className='prose lg:prose-xl prose-zinc text-white'>{blog.blog}</ReactMarkdown>
       </div>
+      </div>
+      <div>
+        <form action={handleSubmit}>
+          <label htmlFor="comment">comment</label>
+          <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+          <button>post</button>
+        </form>
       </div>
     </div>
   )
